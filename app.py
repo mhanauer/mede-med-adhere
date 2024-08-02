@@ -46,7 +46,7 @@ df['current_med_adherence'] = df['current_med_adherence'].round(2)
 df['predicted_med_adherence'] = df['predicted_med_adherence'].round(2)
 
 # Streamlit application
-st.title('Healthcare Data Analysis')
+st.title('Medication Adherence Risk Prediction')
 
 # Select chronic condition
 chronic_condition = st.selectbox('Select Chronic Condition', options=chronic_conditions)
