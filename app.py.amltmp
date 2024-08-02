@@ -48,6 +48,18 @@ df['predicted_med_adherence'] = df['predicted_med_adherence'].round(2)
 # Streamlit application
 st.title('Medication Adherence Risk Prediction')
 
+st.markdown("""
+Below is the medication adherence prediction demo. We predict the probability of a member adhering to their medication (e.g., picking up their medication). We created four categories to help users identify which members are impactable:
+
+Impactable low medication adherence:** Currently not adhering to medication; however, predicted to take their medication. Users should target these members as they are likely to take their medication.
+
+Unavoidable low medication adherence:** Members who are non-adherent and predicted to stay non-adherent. These are members users may want to consider ignoring since there is little opportunity for improvement.
+
+Future low medication adherence:** Members who are currently adhering to medication; however, are predicted to drop. Users may want to target these members as they could decrease medication adherence in the future.
+
+Stable high medication adherence:** Members with current high medication adherence and predicted to stay high. No intervention with these members is likely necessary.
+""")
+
 # Select chronic condition
 chronic_condition = st.selectbox('Select Chronic Condition', options=chronic_conditions)
 
