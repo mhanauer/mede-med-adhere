@@ -60,6 +60,7 @@ Future low medication adherence: Members who are currently adhering to medicatio
 Stable high medication adherence: Members with current high medication adherence and predicted to stay high. No intervention with these members is likely necessary.
 """)
 
+
 # Select chronic condition
 chronic_condition = st.selectbox('Select Chronic Condition', options=chronic_conditions)
 
