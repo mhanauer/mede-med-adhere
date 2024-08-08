@@ -92,9 +92,3 @@ filtered_df = df[(df['chronic_condition'] == chronic_condition) & (df['claimant_
 
 # Display the filtered dataframe
 st.dataframe(filtered_df)
-
-
-In this revised code:
-- **Impactable low medication adherence** and **Unavoidable low medication adherence** are defined for members who are currently non-adherent based on the bottom 25th percentile.
-- **Future low medication adherence** and **Stable high medication adherence** are defined for members who are currently adherent based on the current medication adherence values.
-- The markdown section includes a description of the "Current non-medication adherence" category, indicating members who are in the bottom 25th percentile for current medication adherence.
