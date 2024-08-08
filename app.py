@@ -1,3 +1,6 @@
+Here's the updated code with the specified adjustments to ensure that "Impactable low medication adherence" and "Unavoidable low medication adherence" are current non-adherence, while "Future low medication adherence" and "Stable high medication adherence" are current adherence:
+
+```python
 import streamlit as st
 import pandas as pd
 import numpy as np
@@ -21,20 +24,32 @@ chronic_conditions = [
 # Assign real chronic condition names to the dataframe
 df['chronic_condition'] = np.random.choice(chronic_conditions, 100)
 
+# Calculate the 75th percentile for allowed_pmpm
+high_cost_threshold = np.percentile(df['allowed_pmpm'], 75)
+
+# Add a column for current high cost claimant based on the 75th percentile
+df['current_high_cost_claimant'] = df['allowed_pmpm'] > high_cost_threshold
+
 # Add a column for current medication adherence
 np.random.seed(42)  # For reproducibility
 df['current_med_adherence'] = np.random.rand(100)
+
+# Calculate the 25th percentile for medication adherence
+low_med_adherence_threshold = np.percentile(df['current_med_adherence'], 25)
+
+# Add a column for current non-medication adherence based on the 25th percentile
+df['current_non_med_adherence'] = df['current_med_adherence'] < low_med_adherence_threshold
 
 # Add a column for predicted medication adherence
 df['predicted_med_adherence'] = np.random.rand(100)
 
 # Define criteria for categorizing claimants based on medication adherence
 def categorize_claimant(row):
-    if row['current_med_adherence'] < 0.5 and row['predicted_med_adherence'] > 0.5:
+    if row['current_non_med_adherence'] and row['predicted_med_adherence'] > 0.5:
         return 'Impactable low medication adherence'
-    elif row['current_med_adherence'] < 0.5 and row['predicted_med_adherence'] < 0.5:
+    elif row['current_non_med_adherence'] and row['predicted_med_adherence'] < 0.5:
         return 'Unavoidable low medication adherence'
-    elif row['current_med_adherence'] > 0.5 and row['predicted_med_adherence'] < 0.5:
+    elif not row['current_non_med_adherence'] and row['predicted_med_adherence'] < 0.5:
         return 'Future low medication adherence'
     else:
         return 'Stable high medication adherence'
@@ -58,21 +73,28 @@ Unavoidable low medication adherence: Members who are non-adherent and predicted
 Future low medication adherence: Members who are currently adhering to medication; however, are predicted to drop. Users may want to target these members as they could decrease medication adherence in the future.
 
 Stable high medication adherence: Members with current high medication adherence and predicted to stay high. No intervention with these members is likely necessary.
-""")
 
+Current non-medication adherence: Members who are in the bottom 25th percentile for current medication adherence. These members are considered non-adherent based on current data.
+""")
 
 # Select chronic condition
 chronic_condition = st.selectbox('Select Chronic Condition', options=chronic_conditions)
 
-# Select high cost category
-high_cost_categories = [
+# Select medication adherence category
+med_adherence_categories = [
     'Impactable low medication adherence', 'Unavoidable low medication adherence', 
     'Future low medication adherence', 'Stable high medication adherence'
 ]
-high_cost_category = st.selectbox('Select Medication Adherence Category', options=high_cost_categories)
+med_adherence_category = st.selectbox('Select Medication Adherence Category', options=med_adherence_categories)
 
 # Filter the dataframe based on selections
-filtered_df = df[(df['chronic_condition'] == chronic_condition) & (df['claimant_category'] == high_cost_category)]
+filtered_df = df[(df['chronic_condition'] == chronic_condition) & (df['claimant_category'] == med_adherence_category)]
 
 # Display the filtered dataframe
 st.dataframe(filtered_df)
+```
+
+In this revised code:
+- **Impactable low medication adherence** and **Unavoidable low medication adherence** are defined for members who are currently non-adherent based on the bottom 25th percentile.
+- **Future low medication adherence** and **Stable high medication adherence** are defined for members who are currently adherent based on the current medication adherence values.
+- The markdown section includes a description of the "Current non-medication adherence" category, indicating members who are in the bottom 25th percentile for current medication adherence.
