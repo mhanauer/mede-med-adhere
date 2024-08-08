@@ -1,6 +1,4 @@
-Here's the updated code with the specified adjustments to ensure that "Impactable low medication adherence" and "Unavoidable low medication adherence" are current non-adherence, while "Future low medication adherence" and "Stable high medication adherence" are current adherence:
 
-```python
 import streamlit as st
 import pandas as pd
 import numpy as np
@@ -92,7 +90,7 @@ filtered_df = df[(df['chronic_condition'] == chronic_condition) & (df['claimant_
 
 # Display the filtered dataframe
 st.dataframe(filtered_df)
-```
+
 
 In this revised code:
 - **Impactable low medication adherence** and **Unavoidable low medication adherence** are defined for members who are currently non-adherent based on the bottom 25th percentile.
