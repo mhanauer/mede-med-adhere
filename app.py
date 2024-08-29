@@ -36,11 +36,11 @@ df['predicted_med_adherence'] = np.random.rand(100)
 # Define criteria for categorizing claimants based on medication adherence
 def categorize_claimant(row):
     if row['current_non_med_adherence'] and row['predicted_med_adherence'] > 0.5:
-        return 'Impactable low medication adherence'
+        return 'Wait and see low medication adherence'
     elif row['current_non_med_adherence'] and row['predicted_med_adherence'] < 0.5:
         return 'Unavoidable low medication adherence'
     elif not row['current_non_med_adherence'] and row['predicted_med_adherence'] < 0.5:
-        return 'Future low medication adherence'
+        return 'Impactable low medication adherence'
     else:
         return 'Stable high medication adherence'
 
@@ -58,11 +58,11 @@ Current non-medication adherence: Members who are in the bottom 25th percentile 
 
 Below is the medication adherence prediction demo. We predict the probability of a member adhering to their medication (e.g., picking up their medication). We created four categories to help users identify which members are impactable:
 
-Impactable low medication adherence: Currently not adhering to medication; however, predicted to take their medication. Users should target these members as they are likely to take their medication.
+Wait and see low medication adherence: Currently not adhering to medication; however, predicted to take their medication. Users should target these members as they are likely to take their medication.
 
 Unavoidable low medication adherence: Members who are non-adherent and predicted to stay non-adherent. These are members users may want to consider ignoring since there is little opportunity for improvement.
 
-Future low medication adherence: Members who are currently adhering to medication; however, are predicted to drop. Users may want to target these members as they could decrease medication adherence in the future.
+Impactable low medication adherence: Members who are currently adhering to medication; however, are predicted to drop. Users may want to target these members as they could decrease medication adherence in the future.
 
 Stable high medication adherence: Members with current high medication adherence and predicted to stay high. No intervention with these members is likely necessary.
 """)
@@ -72,8 +72,8 @@ chronic_condition = st.selectbox('Select Chronic Condition', options=chronic_con
 
 # Select medication adherence category
 med_adherence_categories = [
-    'Impactable low medication adherence', 'Unavoidable low medication adherence', 
-    'Future low medication adherence', 'Stable high medication adherence'
+    'Wait and see low medication adherence', 'Unavoidable low medication adherence', 
+    'Impactable low medication adherence', 'Stable high medication adherence'
 ]
 med_adherence_category = st.selectbox('Select Medication Adherence Category', options=med_adherence_categories)
 
